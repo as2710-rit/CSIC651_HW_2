@@ -1,3 +1,15 @@
+commit 0d5b234335f27f2f018f7451003fd72aaf85d1dd
+Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
+Date:   Fri Oct 9 12:40:35 2026 -0400
+
+    Removed few Unnecesary files
+
+commit 6075cad28d0d0e6bdb623663390e510f7a9e9066
+Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
+Date:   Fri Oct 9 12:28:19 2026 -0400
+
+    Final changes for verification
+
 commit 73f472e0569fa7da6ed4d04d0143abf16aebe257
 Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
 Date:   Fri Oct 9 12:02:16 2026 -0400
