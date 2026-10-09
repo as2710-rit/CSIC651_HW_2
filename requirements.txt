@@ -1,4 +1,4 @@
 # my_ping.py and my_traceroute.py use only the Python standard library.
-# The packages below are for documentation and code style checks.
-sphinx
-flake8
+# No third-party packages are required to run my_ping.py or my_traceroute.py.
+# Everything used (socket, struct, select, argparse, ...) is in the Python standard library
+
