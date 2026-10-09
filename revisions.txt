@@ -1,3 +1,33 @@
+commit 0d573b0e9085a73ed43a39a8aba739f7a5f08aeb
+Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
+Date:   Fri Oct 9 12:01:25 2026 -0400
+
+    Final_Updates, errors corrected and Readme updated
+
+commit ba9edfb9cfa68a12fd2eb5473f8dd5dd1fe4a049
+Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
+Date:   Fri Oct 9 07:42:59 2026 -0400
+
+    Working version
+
+commit 750da1dda1f651374ed384fa2f1edcfca14584aa
+Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
+Date:   Thu Oct 8 09:13:50 2026 -0400
+
+    Added functional ping, traceroute, and utility functions.
+
+commit 596bf8e032ee1fc994eb67c103b21a718c906ba3
+Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
+Date:   Sun Oct 4 21:47:51 2026 -0400
+
+    Added revisions.txt
+
+commit 5d8f46aa1667da97d5c9065c2ff488c38a37da6e
+Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
+Date:   Sun Oct 4 21:47:29 2026 -0400
+
+    Initialization
+
 commit f90adfea5a83d665497d899a9f2574822bf04c3e
 Author: as2710-rit <321455776+as2710-rit@users.noreply.github.com>
 Date:   Sun Oct 4 21:45:25 2026 -0400
