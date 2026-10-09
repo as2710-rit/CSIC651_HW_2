@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A simple implementation of the Linux ``traceroute`` command.
+"""A simple implementation of the ``traceroute`` command (macOS-style output).
 
 UDP probes are sent with an increasing TTL; routers along the path reply
 with ICMP Time Exceeded and the destination replies with ICMP Port
@@ -20,10 +20,11 @@ import time
 from utils import (ICMP_DEST_UNREACHABLE, ICMP_TIME_EXCEEDED, parse_ip_header,
                    resolve_host)
 
-MAX_HOPS = 30
+MAX_HOPS = 64
 BASE_PORT = 33434
 PROBE_TIMEOUT = 3.0
-PAYLOAD = b"\x00" * 32  # 20 (IP) + 8 (UDP) + 32 = 60 byte packets
+PAYLOAD = b"\x00" * 12  # 20 (IP) + 8 (UDP) + 12 = 40 byte packets
+PACKET_LEN = 20 + 8 + len(PAYLOAD)
 
 # Flags real traceroute prints for ICMP Destination Unreachable codes.
 UNREACH_FLAGS = {0: "!N", 1: "!H", 2: "!P", 4: "!F", 5: "!S", 13: "!X"}
@@ -131,15 +132,29 @@ def trace_hop(ttl, dest_ip, args, send_sock, recv_sock, state):
     :rtype: tuple
     """
     send_sock.setsockopt(socket.IPPROTO_IP, socket.IP_TTL, ttl)
-    print(f"{ttl:2d} ", end="", flush=True)
     last_addr = None
     done = False
     lost = 0
-    for _ in range(args.nqueries):
+    for probe in range(args.nqueries):
         port = state["port"]
         state["port"] += 1
         start = time.perf_counter()
-        send_sock.sendto(PAYLOAD, (dest_ip, port))
+        send_failed = False
+        try:
+            send_sock.sendto(PAYLOAD, (dest_ip, port))
+        except OSError as exc:
+            print(f"traceroute: sendto: {exc.strerror}", file=sys.stderr,
+                  flush=True)
+            send_failed = True
+
+        # The hop number is printed after the first probe is sent, which is
+        # why the sendto error for probe 1 appears on the line above it.
+        if probe == 0:
+            print(f"{ttl:2d} ", end="", flush=True)
+        if send_failed:
+            print(f"traceroute: wrote {args.host} {PACKET_LEN} chars, "
+                  f"ret=-1", file=sys.stderr, flush=True)
+
         result = wait_for_icmp(recv_sock, port, start + PROBE_TIMEOUT)
         if result is None:
             lost += 1
@@ -155,7 +170,7 @@ def trace_hop(ttl, dest_ip, args, send_sock, recv_sock, state):
             done = True
             if icmp_code in UNREACH_FLAGS:
                 print(f" {UNREACH_FLAGS[icmp_code]}", end="")
-    print()
+    print(flush=True)
     return done, lost
 
 
@@ -195,7 +210,7 @@ def main():
                               socket.IPPROTO_UDP)
 
     print(f"traceroute to {args.host} ({dest_ip}), {MAX_HOPS} hops max, "
-          f"{20 + 8 + len(PAYLOAD)} byte packets")
+          f"{PACKET_LEN} byte packets", flush=True)
     state = {"port": BASE_PORT, "cache": {}}
     rows = []
     try:

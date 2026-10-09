@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""A simple implementation of the Linux ``ping`` command.
+"""A simple implementation of the ``ping`` command (macOS-style output).
 
-Sends ICMP Echo Requests over a raw socket and prints the replies in the
-same format as the real ping.  Requires root/administrator privileges.
+Sends ICMP Echo Requests over a raw socket and prints the replies.
+Requires root/administrator privileges.
 
 Example::
 
@@ -92,24 +92,23 @@ def wait_for_reply(sock, ident, seq, deadline):
             return arrival, src, ttl, len(icmp)
 
 
-def print_stats(host, sent, rtts, elapsed_ms):
+def print_stats(host, sent, rtts):
     """Print the summary shown when ping finishes.
 
     :param str host: Destination as typed by the user.
     :param int sent: Packets transmitted.
     :param list rtts: Round-trip times in milliseconds.
-    :param float elapsed_ms: Total running time in milliseconds.
     """
     received = len(rtts)
     loss = 100.0 * (sent - received) / sent if sent else 0.0
     print(f"\n--- {host} ping statistics ---")
-    print(f"{sent} packets transmitted, {received} received, "
-          f"{loss:.0f}% packet loss, time {elapsed_ms:.0f}ms")
+    print(f"{sent} packets transmitted, {received} packets received, "
+          f"{loss:.1f}% packet loss")
     if rtts:
         avg = sum(rtts) / received
         mdev = math.sqrt(max(sum(r * r for r in rtts) / received
                              - avg * avg, 0.0))
-        print(f"rtt min/avg/max/mdev = {min(rtts):.3f}/{avg:.3f}/"
+        print(f"round-trip min/avg/max/stddev = {min(rtts):.3f}/{avg:.3f}/"
               f"{max(rtts):.3f}/{mdev:.3f} ms")
 
 
@@ -123,9 +122,9 @@ def main():
     try:
         dest_ip = resolve_host(args.host)
     except socket.gaierror:
-        print(f"ping: {args.host}: Name or service not known",
+        print(f"ping: cannot resolve {args.host}: Unknown host",
               file=sys.stderr)
-        return 2
+        return 68
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_RAW,
                              socket.IPPROTO_ICMP)
@@ -136,15 +135,15 @@ def main():
 
     ident = os.getpid() & 0xFFFF
     payload = make_payload(args.size)
-    total = args.size + ICMP_HEADER_LEN + IP_HEADER_LEN
-    print(f"PING {args.host} ({dest_ip}) {args.size}({total}) "
-          f"bytes of data.")
+    print(f"PING {args.host} ({dest_ip}): {args.size} data bytes",
+          flush=True)
 
     start = time.perf_counter()
     stop_at = start + args.timeout if args.timeout is not None else None
     rtts = []
     sent = 0
-    seq = 0
+    seq = -1          # macOS-style: first icmp_seq is 0
+    pending = None    # seq of the previous packet that got no reply yet
     try:
         while args.count is None or sent < args.count:
             if stop_at is not None and time.perf_counter() >= stop_at:
@@ -152,20 +151,36 @@ def main():
             seq += 1
             packet = build_echo_request(ident, seq & 0xFFFF, payload)
             send_time = time.perf_counter()
-            sock.sendto(packet, (dest_ip, 0))
+            send_ok = True
+            try:
+                sock.sendto(packet, (dest_ip, 0))
+            except OSError as exc:
+                print(f"ping: sendto: {exc.strerror}", flush=True)
+                send_ok = False
             sent += 1
 
+            # Report the previous packet as timed out once the next is sent.
+            if pending is not None:
+                print(f"Request timeout for icmp_seq {pending}", flush=True)
+                pending = None
+
             interval_end = send_time + args.wait
-            deadline = max(interval_end, send_time + 1.0)
-            if stop_at is not None:
-                deadline = min(deadline, stop_at)
-            result = wait_for_reply(sock, ident, seq & 0xFFFF, deadline)
-            if result:
-                arrival, src, ttl, length = result
-                rtt = (arrival - send_time) * 1000
-                rtts.append(rtt)
-                print(f"{length} bytes from {src}: icmp_seq={seq} "
-                      f"ttl={ttl} time={rtt:.1f} ms")
+            if send_ok:
+                deadline = max(interval_end, send_time + 1.0)
+                if stop_at is not None:
+                    deadline = min(deadline, stop_at)
+                result = wait_for_reply(sock, ident, seq & 0xFFFF, deadline)
+                if result:
+                    arrival, src, ttl, length = result
+                    rtt = (arrival - send_time) * 1000
+                    rtts.append(rtt)
+                    print(f"{length} bytes from {src}: icmp_seq={seq} "
+                          f"ttl={ttl} time={rtt:.3f} ms", flush=True)
+                else:
+                    pending = seq
+            else:
+                pending = seq
+
             # Sleep out the rest of the interval before the next packet.
             if args.count is None or sent < args.count:
                 pause = interval_end - time.perf_counter()
@@ -178,8 +193,7 @@ def main():
     finally:
         sock.close()
 
-    elapsed_ms = (time.perf_counter() - start) * 1000
-    print_stats(args.host, sent, rtts, elapsed_ms)
+    print_stats(args.host, sent, rtts)
     return 0 if rtts else 1
 
 

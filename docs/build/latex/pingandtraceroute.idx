@@ -1,0 +1,22 @@
+\indexentry{module@\spxentry{module}!my\_ping@\spxentry{my\_ping}|hyperpage}{1}
+\indexentry{my\_ping@\spxentry{my\_ping}!module@\spxentry{module}|hyperpage}{1}
+\indexentry{parse\_args() (in module my\_ping)@\spxentry{parse\_args()}\spxextra{in module my\_ping}|hyperpage}{1}
+\indexentry{make\_payload() (in module my\_ping)@\spxentry{make\_payload()}\spxextra{in module my\_ping}|hyperpage}{2}
+\indexentry{wait\_for\_reply() (in module my\_ping)@\spxentry{wait\_for\_reply()}\spxextra{in module my\_ping}|hyperpage}{2}
+\indexentry{print\_stats() (in module my\_ping)@\spxentry{print\_stats()}\spxextra{in module my\_ping}|hyperpage}{3}
+\indexentry{main() (in module my\_ping)@\spxentry{main()}\spxextra{in module my\_ping}|hyperpage}{4}
+\indexentry{module@\spxentry{module}!my\_traceroute@\spxentry{my\_traceroute}|hyperpage}{7}
+\indexentry{my\_traceroute@\spxentry{my\_traceroute}!module@\spxentry{module}|hyperpage}{7}
+\indexentry{parse\_args() (in module my\_traceroute)@\spxentry{parse\_args()}\spxextra{in module my\_traceroute}|hyperpage}{7}
+\indexentry{probe\_port\_from\_icmp() (in module my\_traceroute)@\spxentry{probe\_port\_from\_icmp()}\spxextra{in module my\_traceroute}|hyperpage}{7}
+\indexentry{wait\_for\_icmp() (in module my\_traceroute)@\spxentry{wait\_for\_icmp()}\spxextra{in module my\_traceroute}|hyperpage}{8}
+\indexentry{describe() (in module my\_traceroute)@\spxentry{describe()}\spxextra{in module my\_traceroute}|hyperpage}{9}
+\indexentry{trace\_hop() (in module my\_traceroute)@\spxentry{trace\_hop()}\spxextra{in module my\_traceroute}|hyperpage}{10}
+\indexentry{print\_summary() (in module my\_traceroute)@\spxentry{print\_summary()}\spxextra{in module my\_traceroute}|hyperpage}{11}
+\indexentry{main() (in module my\_traceroute)@\spxentry{main()}\spxextra{in module my\_traceroute}|hyperpage}{12}
+\indexentry{module@\spxentry{module}!utils@\spxentry{utils}|hyperpage}{14}
+\indexentry{utils@\spxentry{utils}!module@\spxentry{module}|hyperpage}{14}
+\indexentry{checksum() (in module utils)@\spxentry{checksum()}\spxextra{in module utils}|hyperpage}{14}
+\indexentry{build\_echo\_request() (in module utils)@\spxentry{build\_echo\_request()}\spxextra{in module utils}|hyperpage}{14}
+\indexentry{parse\_ip\_header() (in module utils)@\spxentry{parse\_ip\_header()}\spxextra{in module utils}|hyperpage}{15}
+\indexentry{resolve\_host() (in module utils)@\spxentry{resolve\_host()}\spxextra{in module utils}|hyperpage}{15}

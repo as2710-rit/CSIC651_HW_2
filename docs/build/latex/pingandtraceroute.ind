@@ -1,0 +1,59 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter B
+  \item \spxentry{build\_echo\_request()}\spxextra{in module utils}, \hyperpage{14}
+
+  \indexspace
+  \bigletter C
+  \item \spxentry{checksum()}\spxextra{in module utils}, \hyperpage{14}
+
+  \indexspace
+  \bigletter D
+  \item \spxentry{describe()}\spxextra{in module my\_traceroute}, \hyperpage{9}
+
+  \indexspace
+  \bigletter M
+  \item \spxentry{main()}\spxextra{in module my\_ping}, \hyperpage{4}
+  \item \spxentry{main()}\spxextra{in module my\_traceroute}, \hyperpage{12}
+  \item \spxentry{make\_payload()}\spxextra{in module my\_ping}, \hyperpage{2}
+  \item \spxentry{module}
+    \subitem \spxentry{my\_ping}, \hyperpage{1}
+    \subitem \spxentry{my\_traceroute}, \hyperpage{7}
+    \subitem \spxentry{utils}, \hyperpage{14}
+  \item \spxentry{my\_ping}
+    \subitem \spxentry{module}, \hyperpage{1}
+  \item \spxentry{my\_traceroute}
+    \subitem \spxentry{module}, \hyperpage{7}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{parse\_args()}\spxextra{in module my\_ping}, \hyperpage{1}
+  \item \spxentry{parse\_args()}\spxextra{in module my\_traceroute}, \hyperpage{7}
+  \item \spxentry{parse\_ip\_header()}\spxextra{in module utils}, \hyperpage{15}
+  \item \spxentry{print\_stats()}\spxextra{in module my\_ping}, \hyperpage{3}
+  \item \spxentry{print\_summary()}\spxextra{in module my\_traceroute}, \hyperpage{11}
+  \item \spxentry{probe\_port\_from\_icmp()}\spxextra{in module my\_traceroute}, \hyperpage{7}
+
+  \indexspace
+  \bigletter R
+  \item \spxentry{resolve\_host()}\spxextra{in module utils}, \hyperpage{15}
+
+  \indexspace
+  \bigletter T
+  \item \spxentry{trace\_hop()}\spxextra{in module my\_traceroute}, \hyperpage{10}
+
+  \indexspace
+  \bigletter U
+  \item \spxentry{utils}
+    \subitem \spxentry{module}, \hyperpage{14}
+
+  \indexspace
+  \bigletter W
+  \item \spxentry{wait\_for\_icmp()}\spxextra{in module my\_traceroute}, \hyperpage{8}
+  \item \spxentry{wait\_for\_reply()}\spxextra{in module my\_ping}, \hyperpage{2}
+
+\end{sphinxtheindex}
